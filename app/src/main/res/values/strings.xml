@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Organizer</string>
+    <string name="login_hint_text">Enter login</string>
+    <string name="password_hint_text">Enter password</string>
+    <string name="login_confirm_button_text">Enter</string>
+    <string name="button_calendar_prev">Prev</string>
+    <string name="button_calendar_next">Next</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thi">Thi</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+
 </resources>

@@ -1,20 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <EditText
-            android:id="@+id/test_edit_text"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:id="@+id/button_prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_calendar_prev"/>
+
+        <TextView
+                android:id="@+id/month_text_view"
+                style="@style/TextCalendarMonthYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="April 2018"/>
+
+        <Button
+                android:id="@+id/button_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_calendar_next"/>
+    </LinearLayout>
+
+    <GridLayout
+            android:id="@+id/calendat_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your text here"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_margin="@dimen/text_small_margin"
+            android:layout_gravity="center"
+            android:rowCount="7"
+            android:columnCount="7">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+            android:text="@string/mon"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="@string/tue"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="@string/wed"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="@string/thi"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="@string/fri"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="@string/sat"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="@string/sun"/>
+
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="1"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="2"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="3"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="4"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="5"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="6"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="7"/>
+
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="8"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="9"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="10"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="11"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="12"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="13"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="14"/>
+
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="15"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="16"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="17"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="18"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="19"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="20"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="21"/>
+
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="22"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="23"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="24"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="25"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="26"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="27"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="28"/>
+
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="29"/>
+        <TextView
+                android:layout_margin="@dimen/text_small_margin"
+                android:text="30"/>
+
+    </GridLayout>
+    <View
+            android:id="@+id/delimeter_view"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:background="@color/gray_mercury"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+    android:layout_margin="@dimen/text_small_margin">
+        <TextView
+                android:text="Today's TO-DO list"
+                android:layout_marginTop="@dimen/text_small_margin"
+                style="@style/TextToDoList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:text="10:00     Встреча с Алисой"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:text="15:30     Добить текущие задачи по приложению"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:text="20:34     Вечерний кофе и книги"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>
