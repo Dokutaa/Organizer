@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -14,5 +14,17 @@
     <style name="TextToDoList">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    <style name="CustomButtonStyle">
+        <item name="android:background">@color/gray_mercury</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+    <style name="AddActivityDialogItem">
+        <item name="android:layout_marginTop">5sp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="AddActivityDialogItem.Header">
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+    <TextView
+            android:layout_marginEnd="@dimen/text_small_margin"
+            android:id="@+id/small_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:00"/>
+    <TextView
+            android:layout_toEndOf="@id/small_time_text_view"
+            android:layout_alignBaseline="@id/small_time_text_view"
+            android:layout_marginLeft="@dimen/text_adapter_margin"
+            android:id="@+id/small_activity_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go shopping"/>
+    <TextView
+            android:layout_below="@id/small_activity_text_view"
+            android:layout_alignStart="@id/small_activity_text_view"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_marginLeft="20sp"
+            android:id="@+id/small_notes_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buy some products"/>
+    <View
+            android:id="@+id/delimeter_view"
+            android:layout_below="@id/small_notes_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:background="@color/gray_mercury"/>
+</RelativeLayout>

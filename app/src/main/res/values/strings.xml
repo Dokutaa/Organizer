@@ -13,4 +13,18 @@
     <string name="sat">Sat</string>
     <string name="sun">Sun</string>
 
+    <string name="address_item">Address:</string>
+    <string name="add_time">time</string>
+    <string name="add_activity">activity</string>
+    <string name="add_activity_dialog_name">New thing to do on</string>
+    <string name="add_address_street">street</string>
+    <string name="add_address_house">house No.</string>
+    <string name="add_address_apartment">apt No.</string>
+    <string name="add_address_city">city / area</string>
+    <string name="add_notes">notes</string>
+    <string name="add_image">image</string>
+    <string name="add_image_line">add image</string>
+    <string name="add_activity_button_text">add activity</string>
+    <string name="full_list_date_item">To-Do list for</string>
+
 </resources>

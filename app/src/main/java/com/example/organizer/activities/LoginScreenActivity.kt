@@ -1,15 +1,13 @@
-package com.example.organizer
+package com.example.organizer.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
+import com.example.organizer.R
+import com.example.organizer.loadImage
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 
@@ -43,7 +41,7 @@ class LoginScreenActivity : AppCompatActivity() {
             if (enteredLogin == login && enteredPassword == password) {
                 startActivity<MainActivity>()
             } else {
-                alert("Wrong login or password") {  }.show()
+                alert("Wrong login or password").show()
             }
 
         }
@@ -51,8 +49,4 @@ class LoginScreenActivity : AppCompatActivity() {
 
 
     }
-}
-
-fun loadImage(img: String, view: ImageView) {
-    Picasso.get().load(img).into(view)
 }
