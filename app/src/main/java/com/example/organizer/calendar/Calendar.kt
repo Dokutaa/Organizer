@@ -1,8 +1,5 @@
-package com.example.organizer
+package com.example.organizer.calendar
 
-import android.content.Context
-import android.view.View
-import android.widget.PopupMenu
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import java.util.*
@@ -22,14 +19,13 @@ fun initCalendar(calendarView: CalendarView) {
     initialDate = CalendarDate(calendar.time)
     datesList.add(initialDate)
 
-    // List of initially preselected dates
-    val preselectedDates: MutableList<CalendarDate> = datesList
+    val preselectedDates: List<CalendarDate> = listOf(initialDate)
 
     // Setting up calendar with all the parameters
     calendarView.setupCalendar(
         initialDate = initialDate,
         selectionMode = CalendarView.SelectionMode.SINGLE,
-//        selectedDates = preselectedDates,
+        selectedDates = preselectedDates,
         firstDayOfWeek = Calendar.MONDAY,
         showYearSelectionView = true
     )

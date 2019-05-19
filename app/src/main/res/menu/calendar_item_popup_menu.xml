@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-            android:id="@+id/one"
+            android:id="@+id/add_new_activity"
             android:title="Add new activity"/>
-
     <item
-            android:id="@+id/two"
-            android:title="Delete activity"/>
-
-    <item
-            android:id="@+id/three"
+            android:id="@+id/clear_all_activities"
             android:title="Clear all activities"/>
-
 </menu>

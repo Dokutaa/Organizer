@@ -6,21 +6,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.organizer.R
-import com.example.organizer.support.DailyActivity
-import com.example.organizer.support.User
+import com.example.organizer.database.ActivitiesDatabase
+import com.example.organizer.database.DailyActivity
 import kotlinx.coroutines.*
 import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.parse
-import kotlinx.serialization.stringify
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
-import java.util.*
-import kotlin.coroutines.CoroutineContext
 
+@ImplicitReflectionSerializer
 class CreateNewActivity : AppCompatActivity() {
+
+    private var db: ActivitiesDatabase? = null
 
     lateinit var dateTextView: TextView
     lateinit var timeEditText: EditText
@@ -34,41 +30,33 @@ class CreateNewActivity : AppCompatActivity() {
     lateinit var addActivityBtn: Button
 
     private lateinit var newActivity: DailyActivity
-
-    private var id = 1
-    private val user = User(
-        id = 19283474L,
-        name = "Dokutaa",
-        login = "login",
-        password = "password",
-        userImg = "https://bipbap.ru/wp-content/uploads/2017/12/65620375-6b2b57fa5c7189ba4e3841d592bd5fc1-800-640x426.jpg"
-    )
+    private lateinit var dayMonthYear: String
+    private lateinit var activitiesList: MutableList<DailyActivity>
 
     @ImplicitReflectionSerializer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_new)
 
+        db = ActivitiesDatabase.getInstance(this)
+
+        dayMonthYear = intent.getStringExtra("dayMonthYear")
+
         initViews()
         showDate()
+
         addActivityBtn.onClick {
-            launchFullListActivity(createActivity())
+            createActivity()
+            launchFullListActivity()
         }
     }
 
-    @ImplicitReflectionSerializer
-    private fun launchFullListActivity(activity: DailyActivity) = GlobalScope.launch(Dispatchers.Main) {
-        val newActivityJson = Json.stringify(activity)
-        withContext(Dispatchers.IO) {
-            startActivity<FullListActivity>("newActivityJson" to newActivityJson)
-        }
+    fun launchFullListActivity() {
+        startActivity<FullListActivity>("dayMonthYear" to dayMonthYear)
     }
 
-    @ImplicitReflectionSerializer
     private fun showDate() {
-        val dateJson = intent.getStringExtra("dateJson")
-        val date: String = Json.parse(dateJson)
-        dateTextView.text = date
+        dateTextView.text = dayMonthYear
     }
 
     private fun initViews() {
@@ -85,30 +73,33 @@ class CreateNewActivity : AppCompatActivity() {
     }
 
     private fun createActivity(): DailyActivity {
-        val timeCaptured = timeEditText.text.toString()
-        val activityCaptured = activityEditText.text.toString()
-        val streetCaptured = streetEditText.text.toString()
-        val houseCaptured = houseEditText.text.toString()
-        val aptCaptured = aptEditText.text.toString()
-        val cityCaptured = cityEditText.text.toString()
-        val notesCaptured = notesEditText.text.toString()
 
-        val address = "$cityCaptured, $streetCaptured, $houseCaptured, Apt. No $aptCaptured"
+        newActivity = DailyActivity()
 
-        val dayMonthYear = dateTextView.text.toString()
+        GlobalScope.launch(Dispatchers.Main) {
 
-        newActivity = DailyActivity(
-            user = user,
-            id = id.toLong(),
-            dayMonthYear = dayMonthYear,
-            time = timeCaptured,
-            activity = activityCaptured,
-            address = address,
-            notes = notesCaptured,
-            img = "https://www.kulina.ru/images/docs/Image/zes(6).jpg"
-        )
+            val timeCaptured = timeEditText.text.toString()
+            val activityCaptured = activityEditText.text.toString()
+            val streetCaptured = streetEditText.text.toString()
+            val houseCaptured = houseEditText.text.toString()
+            val aptCaptured = aptEditText.text.toString()
+            val cityCaptured = cityEditText.text.toString()
+            val notesCaptured = notesEditText.text.toString()
+            val address = "$cityCaptured, $streetCaptured, $houseCaptured, Apt. No $aptCaptured"
+            val date = dateTextView.text.toString()
 
-        id += 1
+
+            newActivity.dayMonthYear = date
+            newActivity.time = timeCaptured
+            newActivity.activity = activityCaptured
+            newActivity.address = address
+            newActivity.notes = notesCaptured
+            newActivity.img = "https://www.kulina.ru/images/docs/Image/zes(6).jpg"
+
+            async(Dispatchers.IO) {
+                db!!.activityDao().insertActivity(newActivity)
+            }.await()
+        }
 
         return newActivity
     }

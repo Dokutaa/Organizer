@@ -5,21 +5,17 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import com.example.organizer.R
+import com.example.organizer.support.SavedData
 import com.example.organizer.adapters.SmallAdapter
-import com.example.organizer.initCalendar
-import com.example.organizer.support.DailyActivity
-import com.example.organizer.support.User
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.organizer.calendar.initCalendar
+import com.example.organizer.database.ActivitiesDatabase
+import com.example.organizer.database.DailyActivity
+import kotlinx.coroutines.*
 import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.parse
-import kotlinx.serialization.stringify
 import org.jetbrains.anko.startActivity
 import ru.cleverpumpkin.calendar.CalendarView
 
@@ -28,20 +24,28 @@ class MainActivity : AppCompatActivity() {
     lateinit var recycler: RecyclerView
     lateinit var calendarView: CalendarView
     private lateinit var smallAdapter: SmallAdapter
+    private lateinit var activitiesList: MutableList<DailyActivity>
+    private lateinit var dayMonthYear: String
+    private var db: ActivitiesDatabase? = null
 
     @ImplicitReflectionSerializer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        calendarView = findViewById(R.id.calendar_view)
-        initCalendar(calendarView)
+        db = ActivitiesDatabase.getInstance(this)
 
+        calendarView = findViewById(R.id.calendar_view)
+        activitiesList = mutableListOf()
+        dayMonthYear = calendarView.selectedDate.toString()
+
+        initCalendar(calendarView)
         initRecyclerView(this)
-        loadDailyActivities()
+        loadDailyActivities(dayMonthYear)
 
         calendarView.onDateClickListener = {
-            launchCreateNewActivity()
+            dayMonthYear = calendarView.selectedDate.toString()
+            loadDailyActivities(dayMonthYear)
         }
 
         calendarView.onDateLongClickListener = {
@@ -51,27 +55,48 @@ class MainActivity : AppCompatActivity() {
     }
 
     @ImplicitReflectionSerializer
-    private fun launchCreateNewActivity() = GlobalScope.launch(Dispatchers.Main) {
-        val date = calendarView.selectedDate.toString()
-        val dateJson = Json.stringify(date)
-            withContext(Dispatchers.IO) {
-                startActivity<CreateNewActivity>("dateJson" to dateJson)
-            }
-    }
-
     private fun showPopup(view: View) {
         var popup: PopupMenu?
         popup = PopupMenu(this@MainActivity, view)
         popup.inflate(R.menu.calendar_item_popup_menu)
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener {item: MenuItem? ->
+            when (item!!.itemId) {
+                R.id.add_new_activity -> {
+                    launchCreateNewActivity()
+                }
+                R.id.clear_all_activities -> {
+                    dayMonthYear = calendarView.selectedDate.toString()
+                    clearDailyActivities()
+                    loadDailyActivities(dayMonthYear)
+                }
+            }
+
+            true
+        })
         popup.show()
     }
 
-    private fun getActivities(): MutableList<DailyActivity> {
-
-        return mutableListOf()
-
+    @ImplicitReflectionSerializer
+    private fun launchCreateNewActivity() = GlobalScope.launch(Dispatchers.Main) {
+        dayMonthYear = calendarView.selectedDate.toString()
+        startActivity<CreateNewActivity>("dayMonthYear" to dayMonthYear)
     }
 
+    // TODO Understand why small recycler shows previous date instead of a selected one
+
+    private fun getActivities(day: String): MutableList<DailyActivity> {
+        GlobalScope.launch(Dispatchers.Main) {
+            async(Dispatchers.IO) {
+                activitiesList = db!!.activityDao().selectByDate(
+                    user = SavedData.currentUserName,
+                    dayMonthYear = day
+                )
+            }.await()
+        }
+        return activitiesList
+    }
+
+    @ImplicitReflectionSerializer
     private fun initRecyclerView(context: Context) {
         recycler = findViewById(R.id.small_activities_recycler_view)
         recycler.layoutManager = LinearLayoutManager(context)
@@ -79,20 +104,21 @@ class MainActivity : AppCompatActivity() {
         recycler.adapter = smallAdapter
     }
 
-    private fun loadDailyActivities() {
-        var activities = getActivities()
-        smallAdapter.clearItems()
-        smallAdapter.setItems(activities)
+    private fun clearDailyActivities() {
+        GlobalScope.launch(Dispatchers.Main) {
+            async(Dispatchers.IO) {
+                db!!.activityDao().deleteDailyActivites(
+                    user = SavedData.currentUserName,
+                    dayMonthYear = dayMonthYear
+                )
+            }.await()
+        }
     }
 
-    private fun testUser(): User {
-        return User(
-            id = 19283474L,
-            name = "Dokutaa",
-            login = "login",
-            password = "password",
-            userImg = "https://bipbap.ru/wp-content/uploads/2017/12/65620375-6b2b57fa5c7189ba4e3841d592bd5fc1-800-640x426.jpg"
-        )
+    private fun loadDailyActivities(day: String) {
+        val activities = getActivities(day)
+        smallAdapter.clearItems()
+        smallAdapter.setItems(activities)
     }
 
 }

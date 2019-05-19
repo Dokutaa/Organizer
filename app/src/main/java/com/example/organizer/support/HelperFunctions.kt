@@ -1,4 +1,4 @@
-package com.example.organizer
+package com.example.organizer.support
 
 import android.widget.ImageView
 import com.squareup.picasso.Picasso

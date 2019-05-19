@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.organizer.R
-import com.example.organizer.loadImage
-import com.example.organizer.support.DailyActivity
+import com.example.organizer.support.loadImage
+import com.example.organizer.database.DailyActivity
 
 class FullAdapter : RecyclerView.Adapter<FullAdapter.FullViewHolder>() {
 

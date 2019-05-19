@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlinx-serialization'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -40,8 +42,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.0"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+    implementation 'com.chibatching.kotpref:kotpref:2.8.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
 }

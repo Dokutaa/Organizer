@@ -6,7 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.organizer.R
-import com.example.organizer.support.DailyActivity
+import com.example.organizer.activities.FullListActivity
+import com.example.organizer.database.DailyActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.stringify
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 
 class SmallAdapter : RecyclerView.Adapter<SmallAdapter.SmallViewHolder>() {
 
@@ -28,6 +38,7 @@ class SmallAdapter : RecyclerView.Adapter<SmallAdapter.SmallViewHolder>() {
         return SmallViewHolder(view)
     }
 
+    @ImplicitReflectionSerializer
     override fun onBindViewHolder(holder: SmallViewHolder, position: Int) {
 
         val activity = activitiesList[position]
@@ -38,6 +49,15 @@ class SmallAdapter : RecyclerView.Adapter<SmallAdapter.SmallViewHolder>() {
         timeTextView.text = activity.time
         activityTextView.text = activity.activity
         notesTextView.text = activity.notes
+
+        holder.itemView.onClick {
+            GlobalScope.launch(Dispatchers.Main) {
+                val activitiesListJson = async(Dispatchers.IO) {
+                    Json.stringify(activitiesList)
+                }.await()
+                holder.itemView.context.startActivity<FullListActivity>("activitiesListJson" to activitiesListJson)
+            }
+        }
 
     }
 

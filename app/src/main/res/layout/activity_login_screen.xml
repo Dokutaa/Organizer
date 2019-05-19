@@ -36,6 +36,16 @@
             app:layout_constraintTop_toBottomOf="@id/login_edit_text"
             android:inputType="textPassword"/>
 
+    <CheckBox
+            android:id="@+id/remember_me_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14sp"
+            android:layout_marginLeft="@dimen/text_small_margin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password_edit_text"
+            android:text="@string/remember_me_text"/>
+
     <Button
             android:id="@+id/login_button"
             app:layout_constraintTop_toBottomOf="@id/password_edit_text"
